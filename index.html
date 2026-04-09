@@ -10,22 +10,25 @@
 body{font-family:system-ui,sans-serif;background:#f5f5f3;color:#1a1a1a;padding:1rem;max-width:1100px;margin:0 auto}
 h1{font-size:1.3rem;font-weight:500;margin-bottom:.25rem;color:#1A3A5C}
 .sub{font-size:12px;color:#888;margin-bottom:1rem}
-.tabs{display:flex;gap:4px;margin-bottom:1rem;border-bottom:1px solid #ddd}
-.tab{padding:7px 16px;font-size:13px;cursor:pointer;border:1px solid transparent;border-bottom:none;border-radius:6px 6px 0 0;color:#666;background:none}
+.tabs{display:flex;gap:4px;margin-bottom:1rem;border-bottom:1px solid #ddd;flex-wrap:wrap}
+.tab{padding:7px 14px;font-size:13px;cursor:pointer;border:1px solid transparent;border-bottom:none;border-radius:6px 6px 0 0;color:#666;background:none;white-space:nowrap}
 .tab.active{border-color:#ddd;background:#fff;color:#1a1a1a;font-weight:500}
 .panel{display:none}.panel.active{display:block}
 .sec{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:1rem 1.25rem;margin-bottom:.75rem}
 .sec-title{font-size:11px;font-weight:500;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem}
-.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.5rem}
 .g5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.5rem}
-@media(max-width:600px){.g3{grid-template-columns:1fr 1fr}.g5{grid-template-columns:repeat(3,1fr)}}
-.fld label{font-size:12px;color:#666;display:block;margin-bottom:3px}
+@media(max-width:600px){.g3{grid-template-columns:1fr 1fr}.g5{grid-template-columns:repeat(2,1fr)}}
+
+/* Slider + input editable */
+.fld label{font-size:12px;color:#555;display:block;margin-bottom:3px}
 .fld .row{display:flex;align-items:center;gap:6px}
-.fld input[type=range]{flex:1;min-width:0}
-.fld .val{font-size:12px;font-weight:500;min-width:52px;text-align:right}
-.fld select,.fld input[type=number]{width:100%;font-size:13px;padding:5px;border:1px solid #ddd;border-radius:6px}
+.fld input[type=range]{flex:1;min-width:0;accent-color:#1A3A5C}
+.fld input.nval{width:64px;font-size:12px;font-weight:500;padding:3px 5px;border:1px solid #ddd;border-radius:5px;text-align:right;background:#f9f9f9}
+.fld input.nval:focus{outline:none;border-color:#378ADD;background:#fff}
+.fld select{width:100%;font-size:13px;padding:5px;border:1px solid #ddd;border-radius:6px}
+
 .met{background:#f5f5f3;border-radius:8px;padding:.6rem .8rem}
 .met .lbl{font-size:11px;color:#888;margin-bottom:3px}
 .met .num{font-size:18px;font-weight:500;line-height:1.1}
@@ -35,17 +38,21 @@ h1{font-size:1.3rem;font-weight:500;margin-bottom:.25rem;color:#1A3A5C}
 .warn{background:#fef9e7;color:#b7770d}
 .err{background:#fdf2f2;color:#a32d2d}
 .info{background:#e8f0fb;color:#185fa5}
-.wbox{background:#fef9e7;border:1px solid #f0c040;border-radius:6px;padding:.5rem .75rem;font-size:12px;color:#b7770d;margin-top:.5rem}
-.ebox{background:#fdf2f2;border:1px solid #e08080;border-radius:6px;padding:.5rem .75rem;font-size:12px;color:#a32d2d;margin-top:.5rem}
-.ibox{background:#e8f0fb;border:1px solid #9dc0f0;border-radius:6px;padding:.5rem .75rem;font-size:12px;color:#185fa5;margin-top:.5rem}
+.ebox{background:#fdf2f2;border:1px solid #e08080;border-radius:6px;padding:.6rem .9rem;font-size:12px;color:#a32d2d;margin-top:.5rem;line-height:1.6}
+.ibox{background:#e8f0fb;border:1px solid #9dc0f0;border-radius:6px;padding:.6rem .9rem;font-size:12px;color:#185fa5;margin-top:.5rem;line-height:1.6}
 .gbox{background:#eafaf1;border:1px solid #80d4a0;border-radius:6px;padding:.75rem 1rem;margin-top:.5rem}
-.gbox h3{font-size:13px;font-weight:500;color:#1e7a3b;margin-bottom:.4rem}
-.gbox ul{list-style:none;font-size:12px;color:#2d5a3d}
-.gbox ul li::before{content:"✓ ";color:#1e7a3b}
+.gbox h3{font-size:13px;font-weight:500;color:#1e7a3b;margin-bottom:.5rem}
 .rbox{background:#fdf2f2;border:1px solid #e08080;border-radius:6px;padding:.75rem 1rem;margin-top:.5rem}
-.rbox h3{font-size:13px;font-weight:500;color:#a32d2d;margin-bottom:.4rem}
-.rbox ul{list-style:none;font-size:12px;color:#7a2020}
-.rbox ul li::before{content:"✗ ";color:#a32d2d}
+.rbox h3{font-size:13px;font-weight:500;color:#a32d2d;margin-bottom:.5rem}
+.viab-row{display:flex;align-items:flex-start;gap:.6rem;padding:.5rem 0;border-bottom:1px solid #eee;font-size:12px}
+.viab-row:last-child{border-bottom:none}
+.viab-icon{font-size:15px;flex-shrink:0;margin-top:1px}
+.viab-body{flex:1}
+.viab-title{font-weight:500;margin-bottom:2px}
+.viab-val{color:#888;font-family:monospace;font-size:11px;margin-bottom:2px}
+.viab-msg{color:#555;line-height:1.5}
+.viab-msg.bad{color:#a32d2d}
+.viab-msg.good{color:#1e7a3b}
 .cw{position:relative;width:100%}
 .leg{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:#888;margin-bottom:6px}
 .leg span{display:flex;align-items:center;gap:4px}
@@ -60,17 +67,20 @@ h1{font-size:1.3rem;font-weight:500;margin-bottom:.25rem;color:#1A3A5C}
 .btn-prim{background:#1A3A5C;color:#fff;border-color:#1A3A5C}
 .btn-prim:hover{background:#2E5A8C}
 .geo-svg{display:flex;justify-content:center;margin:.5rem 0}
-.mat-card{border:1px solid #ddd;border-radius:8px;padding:.6rem .8rem;cursor:pointer;font-size:12px;transition:border-color .15s}
+.mat-card{border:1px solid #ddd;border-radius:8px;padding:.55rem .75rem;cursor:pointer;font-size:12px;transition:border-color .15s}
 .mat-card:hover{border-color:#378ADD}
-.mat-card.selected{border-color:#378ADD;background:#e8f0fb}
-.mat-card .mat-name{font-weight:500;font-size:13px;margin-bottom:2px}
+.mat-card.selected{border-color:#1A3A5C;background:#e8f0fb}
+.mat-card .mat-name{font-weight:500;font-size:12px;margin-bottom:1px}
 .mat-card .mat-stat{color:#888;font-size:11px}
+.custom-calc{background:#fffbf0;border:1px solid #e8d080;border-radius:8px;padding:.75rem 1rem;margin-top:.75rem}
+.custom-calc h4{font-size:12px;font-weight:500;color:#7a5500;margin-bottom:.5rem}
 footer{margin-top:2rem;font-size:11px;color:#aaa;text-align:center;padding-top:1rem;border-top:1px solid #eee}
 </style>
 </head>
 <body>
 <h1>Simulador de Motor Cohete de Propelente Sólido</h1>
-<p class="sub">SpaceLabs · ITCR · Costa Rica — Basado en la teoría de Richard Nakka · <a href="https://github.com/JustinAlfaro/solid_rocket_motor_simulator">GitHub</a></p>
+<p class="sub">SpaceLabs · ITCR · Costa Rica — Basado en la teoría de Richard Nakka ·
+<a href="https://github.com/JustinAlfaro/solid_rocket_motor_simulator">GitHub</a></p>
 
 <div class="tabs">
   <div class="tab active" onclick="showTab('config')">Propelente y grano</div>
@@ -97,12 +107,14 @@ footer{margin-top:2rem;font-size:11px;color:#aaa;text-align:center;padding-top:1
         <option value="custom">Personalizado</option>
       </select>
     </div>
-    <div class="fld"><label>Densidad ρ (kg/m³)</label><div class="row"><input type="range" id="rho" min="1200" max="2100" step="10" value="1780" oninput="sy('rho',this.value,0);run()"><span class="val" id="rho_v">1780</span></div></div>
-    <div class="fld"><label>Coef. quema a (mm/s @ 1 MPa)</label><div class="row"><input type="range" id="aa" min="0.5" max="30" step="0.1" value="3.8" oninput="sy('aa',this.value,1);run()"><span class="val" id="aa_v">3.8</span></div></div>
-    <div class="fld"><label>Exponente n</label><div class="row"><input type="range" id="nn" min="0.05" max="0.85" step="0.01" value="0.40" oninput="sy('nn',this.value,2);run()"><span class="val" id="nn_v">0.40</span></div></div>
-    <div class="fld"><label>c* velocidad característica (m/s)</label><div class="row"><input type="range" id="cstar" min="300" max="1800" step="10" value="660" oninput="sy('cstar',this.value,0);run()"><span class="val" id="cstar_v">660</span></div></div>
-    <div class="fld"><label>CF coeficiente de empuje</label><div class="row"><input type="range" id="cf" min="1.0" max="1.9" step="0.01" value="1.35" oninput="sy('cf',this.value,2);run()"><span class="val" id="cf_v">1.35</span></div></div>
-    <div class="fld"><label>Temperatura de llama Tc (K)</label><div class="row"><input type="range" id="tc" min="800" max="3500" step="50" value="1720" oninput="sy('tc',this.value,0);run()"><span class="val" id="tc_v">1720</span></div></div>
+  </div>
+  <div class="g3" style="margin-top:.5rem">
+    <sl id="rho"   lbl="Densidad ρ (kg/m³)"           mn="1200" mx="2100" st="10"  val="1780" dec="0"></sl>
+    <sl id="aa"    lbl="Coef. quema a (mm/s @ 1 MPa)"  mn="0.5"  mx="30"   st="0.1" val="3.8"  dec="1"></sl>
+    <sl id="nn"    lbl="Exponente de presión n"         mn="0.05" mx="0.85" st="0.01" val="0.40" dec="2"></sl>
+    <sl id="cstar" lbl="Velocidad característica c* (m/s)" mn="300" mx="1800" st="10" val="660" dec="0"></sl>
+    <sl id="cf"    lbl="Coeficiente de empuje CF"       mn="1.0"  mx="1.9"  st="0.01" val="1.35" dec="2"></sl>
+    <sl id="tc"    lbl="Temperatura de llama Tc (K)"    mn="800"  mx="3500" st="50"  val="1720" dec="0"></sl>
   </div>
 </div>
 <div class="sec">
@@ -110,24 +122,24 @@ footer{margin-top:2rem;font-size:11px;color:#aaa;text-align:center;padding-top:1
   <div class="fld" style="margin-bottom:.75rem">
     <label>Tipo de geometría</label>
     <select id="geo_type" onchange="onGeoChange();run()">
-      <option value="bates">Bates — cilíndrico hueco, inhibido total (progresivo)</option>
-      <option value="tubular">Tubular — solo superficie lateral (progresivo)</option>
-      <option value="endburner">End-burner — cara plana (neutro/regresivo)</option>
-      <option value="star">Estrella — star grain (neutro)</option>
-      <option value="finocyl">Finocyl — aletas + cilíndrico (neutro-progresivo)</option>
-      <option value="moon">C-slot — ranura en C (progresivo)</option>
+      <option value="bates">Bates — cilíndrico hueco, inhibido total (quema progresiva)</option>
+      <option value="tubular">Tubular — solo superficie lateral (quema progresiva)</option>
+      <option value="endburner">End-burner — cara plana (quema neutra/regresiva)</option>
+      <option value="star">Estrella — star grain (quema neutra)</option>
+      <option value="finocyl">Finocyl — aletas + cilíndrico (neutro-progresiva)</option>
+      <option value="moon">C-slot — ranura en C (quema progresiva)</option>
     </select>
   </div>
   <div class="geo-svg"><svg id="geo_preview" width="120" height="120" viewBox="-60 -60 120 120"></svg></div>
   <div class="g3">
-    <div class="fld"><label>OD grano (mm)</label><div class="row"><input type="range" id="od_g" min="8" max="200" step="0.5" value="42.31" oninput="sy('od_g',this.value,1);drawGeo(gv('geo_type'));run()"><span class="val" id="od_g_v">42.3</span></div></div>
-    <div class="fld"><label>Core Ø / ancho ranura (mm)</label><div class="row"><input type="range" id="core" min="2" max="100" step="0.5" value="12" oninput="sy('core',this.value,1);drawGeo(gv('geo_type'));run()"><span class="val" id="core_v">12.0</span></div></div>
-    <div class="fld"><label>N° segmentos</label><div class="row"><input type="range" id="nseg" min="1" max="10" step="1" value="3" oninput="sy('nseg',this.value,0);run()"><span class="val" id="nseg_v">3</span></div></div>
-    <div class="fld"><label>Longitud por segmento (mm)</label><div class="row"><input type="range" id="lseg" min="10" max="400" step="1" value="80" oninput="sy('lseg',this.value,0);run()"><span class="val" id="lseg_v">80</span></div></div>
-    <div class="fld" id="fld_star_n"><label>N° puntas (estrella)</label><div class="row"><input type="range" id="star_n" min="4" max="8" step="1" value="5" oninput="sy('star_n',this.value,0);drawGeo('star');run()"><span class="val" id="star_n_v">5</span></div></div>
-    <div class="fld" id="fld_star_f"><label>Fracción punta ε</label><div class="row"><input type="range" id="star_f" min="0.2" max="0.8" step="0.01" value="0.45" oninput="sy('star_f',this.value,2);drawGeo('star');run()"><span class="val" id="star_f_v">0.45</span></div></div>
-    <div class="fld" id="fld_fin_n"><label>N° aletas (finocyl)</label><div class="row"><input type="range" id="fin_n" min="3" max="8" step="1" value="4" oninput="sy('fin_n',this.value,0);drawGeo('finocyl');run()"><span class="val" id="fin_n_v">4</span></div></div>
-    <div class="fld" id="fld_fin_w"><label>Ancho aleta (mm)</label><div class="row"><input type="range" id="fin_w" min="1" max="20" step="0.5" value="4" oninput="sy('fin_w',this.value,1);run()"><span class="val" id="fin_w_v">4.0</span></div></div>
+    <sl id="od_g"   lbl="OD grano (mm)"                mn="8"   mx="200" st="0.5" val="42.31" dec="2" cb="drawGeo"></sl>
+    <sl id="core"   lbl="Core Ø / ancho ranura (mm)"   mn="2"   mx="100" st="0.5" val="12"    dec="1" cb="drawGeo"></sl>
+    <sl id="nseg"   lbl="N° de segmentos"               mn="1"   mx="10"  st="1"   val="3"     dec="0"></sl>
+    <sl id="lseg"   lbl="Longitud por segmento (mm)"   mn="10"  mx="400" st="1"   val="80"    dec="0"></sl>
+    <sl id="star_n" lbl="N° de puntas (estrella)"       mn="4"   mx="8"   st="1"   val="5"     dec="0" cb="drawGeo" hide="1"></sl>
+    <sl id="star_f" lbl="Fracción de punta ε"           mn="0.2" mx="0.8" st="0.01" val="0.45" dec="2" cb="drawGeo" hide="1"></sl>
+    <sl id="fin_n"  lbl="N° de aletas (finocyl)"        mn="3"   mx="8"   st="1"   val="4"     dec="0" cb="drawGeo" hide="1"></sl>
+    <sl id="fin_w"  lbl="Ancho de aleta (mm)"           mn="1"   mx="20"  st="0.5" val="4"     dec="1" hide="1"></sl>
   </div>
 </div>
 </div>
@@ -136,23 +148,65 @@ footer{margin-top:2rem;font-size:11px;color:#aaa;text-align:center;padding-top:1
 <div id="tab_casing" class="panel">
 <div class="sec">
   <div class="sec-title">Material del casing</div>
-  <p style="font-size:12px;color:#888;margin-bottom:.75rem">Seleccione el material o ingrese propiedades personalizadas. La presión de rotura se calcula con la fórmula de Barlow: P_burst = 2 · Sy · t / OD.</p>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.5rem;margin-bottom:.75rem" id="mat_cards"></div>
+  <p style="font-size:12px;color:#666;margin-bottom:.75rem;line-height:1.6">
+    Seleccione un material de la lista o use <strong>Personalizado</strong> para ingresar sus propios valores.
+    La presión de rotura se calcula con la <strong>fórmula de Barlow</strong>: P<sub>burst</sub> = 2 · S<sub>y</sub> · t / OD,
+    donde S<sub>y</sub> es la tensión de fluencia del material, t el espesor de pared y OD el diámetro exterior.
+  </p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:.5rem;margin-bottom:.75rem" id="mat_cards"></div>
+
+  <!-- Calculadora de Sy personalizado -->
+  <div class="custom-calc" id="custom_calc_box" style="display:none">
+    <h4>Calcular tensión de fluencia (S<sub>y</sub>) — material personalizado</h4>
+    <p style="font-size:11px;color:#7a5500;margin-bottom:.6rem;line-height:1.5">
+      Si no conoce el S<sub>y</sub> de su material, puede estimarlo a partir de una
+      <strong>prueba hidrostática</strong> (presión a la que el tubo comienza a deformarse permanentemente)
+      o buscarlo en el <strong>datasheet del fabricante</strong>. Si tiene el S<sub>u</sub> (resistencia
+      última a tensión), el S<sub>y</sub> es típicamente 60–80% de ese valor para aceros y 70–90% para aluminio.
+    </p>
+    <div class="g3" style="margin-bottom:.5rem">
+      <div class="fld">
+        <label>Método</label>
+        <select id="sy_method" onchange="updateSyMethod()">
+          <option value="direct">Ingresar S_y directamente (datasheet)</option>
+          <option value="hydro">Calcular desde prueba hidrostática</option>
+          <option value="su">Calcular desde resistencia última S_u</option>
+        </select>
+      </div>
+      <div class="fld" id="sy_direct_box">
+        <label>S<sub>y</sub> conocido (MPa)</label>
+        <div class="row"><input type="number" id="sy_direct" value="100" min="10" max="2000" step="1"
+          oninput="applySyDirect()" style="width:100%;font-size:13px;padding:5px;border:1px solid #ddd;border-radius:6px"></div>
+      </div>
+      <div class="fld" id="sy_hydro_box" style="display:none">
+        <label>Presión de fluencia hidrostática (MPa)</label>
+        <div class="row"><input type="number" id="sy_hydro_p" value="2.0" min="0.1" max="100" step="0.05"
+          oninput="calcSyFromHydro()" style="width:100%;font-size:13px;padding:5px;border:1px solid #ddd;border-radius:6px"></div>
+      </div>
+      <div class="fld" id="sy_su_box" style="display:none">
+        <label>S<sub>u</sub> resistencia última (MPa)</label>
+        <div class="row"><input type="number" id="sy_su_val" value="200" min="10" max="3000" step="1"
+          oninput="calcSyFromSu()" style="width:100%;font-size:13px;padding:5px;border:1px solid #ddd;border-radius:6px"></div>
+      </div>
+    </div>
+    <div id="sy_result" style="font-size:12px;color:#7a5500"></div>
+  </div>
+
   <div class="g3" style="margin-top:.75rem">
-    <div class="fld"><label>OD casing (mm)</label><div class="row"><input type="range" id="cas_od" min="20" max="200" step="0.5" value="48" oninput="sy('cas_od',this.value,1);run()"><span class="val" id="cas_od_v">48.0</span></div></div>
-    <div class="fld"><label>Espesor de pared (mm)</label><div class="row"><input type="range" id="cas_t" min="0.5" max="20" step="0.1" value="1.84" oninput="sy('cas_t',this.value,2);run()"><span class="val" id="cas_t_v">1.84</span></div></div>
-    <div class="fld"><label>Tensión de fluencia Sy (MPa)</label><div class="row"><input type="range" id="cas_sy" min="20" max="700" step="5" value="48" oninput="sy('cas_sy',this.value,0);run()"><span class="val" id="cas_sy_v">48</span></div></div>
-    <div class="fld"><label>Factor de seguridad (FS)</label><div class="row"><input type="range" id="cas_fs" min="1.5" max="8" step="0.5" value="4" oninput="sy('cas_fs',this.value,1);run()"><span class="val" id="cas_fs_v">4.0</span></div></div>
-    <div class="fld"><label>Usar % del rating (si aplica)</label><div class="row"><input type="range" id="pct_lim" min="30" max="90" step="5" value="65" oninput="sy('pct_lim',this.value,0);run()"><span class="val" id="pct_lim_v">65</span></div></div>
+    <sl id="cas_od" lbl="Diámetro exterior OD (mm)"    mn="20"  mx="200" st="0.5" val="48"   dec="1"></sl>
+    <sl id="cas_t"  lbl="Espesor de pared t (mm)"      mn="0.5" mx="20"  st="0.1" val="1.84" dec="2"></sl>
+    <sl id="cas_sy" lbl="Tensión de fluencia Sy (MPa)" mn="20"  mx="700" st="5"   val="48"   dec="0"></sl>
+    <sl id="cas_fs" lbl="Factor de seguridad FS"       mn="1.5" mx="8"   st="0.5" val="4"    dec="1"></sl>
+    <sl id="pct_lim" lbl="Límite de uso (% del MEOP)"  mn="30"  mx="100" st="5"   val="100"  dec="0"></sl>
   </div>
   <div id="cas_info" style="margin-top:.5rem"></div>
 </div>
 <div class="sec">
   <div class="sec-title">Tobera</div>
   <div class="g3">
-    <div class="fld"><label>Dt garganta (mm)</label><div class="row"><input type="range" id="dt" min="1" max="60" step="0.1" value="10.92" oninput="sy('dt',this.value,2);run()"><span class="val" id="dt_v">10.92</span></div></div>
-    <div class="fld"><label>De salida (mm)</label><div class="row"><input type="range" id="de" min="2" max="120" step="0.5" value="19.0" oninput="sy('de',this.value,1);run()"><span class="val" id="de_v">19.0</span></div></div>
-    <div class="fld"><label>Semiángulo divergente (°)</label><div class="row"><input type="range" id="div_ang" min="5" max="30" step="1" value="15" oninput="sy('div_ang',this.value,0);run()"><span class="val" id="div_ang_v">15</span></div></div>
+    <sl id="dt"      lbl="Diámetro de garganta Dt (mm)"  mn="1"  mx="60"  st="0.1" val="10.92" dec="2"></sl>
+    <sl id="de"      lbl="Diámetro de salida De (mm)"    mn="2"  mx="120" st="0.5" val="19.0"  dec="1"></sl>
+    <sl id="div_ang" lbl="Semiángulo divergente (°)"     mn="5"  mx="30"  st="1"   val="15"    dec="0"></sl>
   </div>
 </div>
 </div>
@@ -188,11 +242,7 @@ footer{margin-top:2rem;font-size:11px;color:#aaa;text-align:center;padding-top:1
 <div class="sec">
   <div class="sec-title">Análisis de viabilidad del motor</div>
   <div id="viab_summary" style="margin-bottom:1rem"></div>
-  <div id="viab_ok"></div>
-  <div id="viab_fail"></div>
-  <div class="sep"></div>
-  <div class="sec-title" style="margin-top:.5rem">Criterios evaluados</div>
-  <div id="viab_table" style="overflow-x:auto"></div>
+  <div id="viab_list"></div>
 </div>
 </div>
 
@@ -201,7 +251,7 @@ footer{margin-top:2rem;font-size:11px;color:#aaa;text-align:center;padding-top:1
 <div class="sec">
   <div class="sec-title">Tabla de resultados — paso de tiempo completo</div>
   <div style="overflow-x:auto"><table class="tbl">
-    <thead><tr><th>t (s)</th><th>F (N)</th><th>P (MPa)</th><th>Isp (s)</th><th>r_b (mm/s)</th><th>Ab (mm²)</th><th>Kn</th><th>It_acum (N·s)</th></tr></thead>
+    <thead><tr><th>t (s)</th><th>F (N)</th><th>P (MPa)</th><th>Isp (s)</th><th>r_b (mm/s)</th><th>Ab (mm²)</th><th>Kn</th><th>It acum. (N·s)</th></tr></thead>
     <tbody id="tbl_body"></tbody>
   </table></div>
   <div style="margin-top:.5rem"><button class="btn btn-prim" onclick="exportCSV()">Exportar CSV completo</button></div>
@@ -209,12 +259,13 @@ footer{margin-top:2rem;font-size:11px;color:#aaa;text-align:center;padding-top:1
 </div>
 
 <footer>
-  SpaceLabs · ITCR · Costa Rica · 
-  <a href="https://github.com/JustinAlfaro/solid_rocket_motor_simulator">GitHub</a> · 
+  SpaceLabs · ITCR · Costa Rica ·
+  <a href="https://github.com/JustinAlfaro/solid_rocket_motor_simulator">GitHub</a> ·
   Basado en la teoría de <a href="https://www.nakka-rocketry.net">Richard Nakka</a> · MIT License
 </footer>
 
 <script>
+// ── Constantes ───────────────────────────────────────────────────────────────
 const G0=9.80665;
 const PROPS={
   knsu:{rho:1780,a:3.8,n:0.40,cstar:660,cf:1.35,tc:1720},
@@ -225,64 +276,163 @@ const PROPS={
   apcp_fast:{rho:1730,a:6.2,n:0.33,cstar:1600,cf:1.65,tc:3300},
   custom:null
 };
-
-// Materiales de casing
 const MATS=[
-  {id:'pvc_sdr26',name:'PVC SDR26',     Sy:48,  color:'#B8D4E8',nota:'Rating fab: 1.103 MPa'},
-  {id:'pvc_sch40',name:'PVC SCH40',     Sy:48,  color:'#90C0E0',nota:'Uso gral hasta ~2 MPa'},
-  {id:'al6061',   name:'Al 6061-T6',    Sy:276, color:'#C8C8C0',nota:'Más usado en amateur'},
-  {id:'al6063',   name:'Al 6063-T5',    Sy:145, color:'#D8D8D0',nota:'Accesible, menor resist.'},
-  {id:'al2024',   name:'Al 2024-T3',    Sy:345, color:'#B8B8B0',nota:'Alto rendimiento'},
-  {id:'st_a36',   name:'Acero A36',     Sy:250, color:'#A0A0A0',nota:'Económico, pesado'},
-  {id:'st_1018',  name:'Acero 1018',    Sy:370, color:'#909090',nota:'Casings y toberas'},
-  {id:'st_304',   name:'Inox 304',      Sy:207, color:'#C0C8D0',nota:'Resistente a corrosión'},
-  {id:'frp',      name:'Fibra vidrio',  Sy:200, color:'#E0E8C0',nota:'Liviano, aislante'},
-  {id:'cfrp',     name:'Fibra carbono', Sy:350, color:'#404040',nota:'Máx rendimiento'},
-  {id:'custom',   name:'Personalizado', Sy:null,color:'#F0E8D8',nota:'Ingrese Sy manualmente'},
+  {id:'pvc_sdr26',name:'PVC SDR26',     Sy:48,  nota:'Agua a presión — Rating fab. 1.103 MPa'},
+  {id:'pvc_sch40',name:'PVC SCH40',     Sy:48,  nota:'Uso general hasta ~2 MPa de Pc'},
+  {id:'al6061',   name:'Al 6061-T6',    Sy:276, nota:'El más usado en cohetería amateur'},
+  {id:'al6063',   name:'Al 6063-T5',    Sy:145, nota:'Más accesible, menor resistencia'},
+  {id:'al2024',   name:'Al 2024-T3',    Sy:345, nota:'Alto rendimiento, más costoso'},
+  {id:'st_a36',   name:'Acero A36',     Sy:250, nota:'Económico, pesado (7.85 g/cc)'},
+  {id:'st_1018',  name:'Acero 1018',    Sy:370, nota:'Bueno para casings y toberas'},
+  {id:'st_304',   name:'Inox 304',      Sy:207, nota:'Resistente a corrosión'},
+  {id:'st_316',   name:'Inox 316',      Sy:207, nota:'Mayor resist. química que 304'},
+  {id:'frp',      name:'Fibra vidrio',  Sy:200, nota:'Liviano y buen aislante térmico'},
+  {id:'cfrp',     name:'Fibra carbono', Sy:350, nota:'Máximo rendimiento, frágil'},
+  {id:'custom',   name:'Personalizado', Sy:null,nota:'Configure Sy con la calculadora'},
 ];
 
 let selectedMat='pvc_sdr26';
 let lastSim=null;
 
+// ── Helpers ──────────────────────────────────────────────────────────────────
 function g(id){return document.getElementById(id)}
-function v(id){return parseFloat(g(id).value)}
+function v(id){return parseFloat(g(id).value)||0}
 function gv(id){return g(id).value}
-function sy(id,val,dec){g(id+'_v').textContent=parseFloat(val).toFixed(dec);}
 
-// Construir cards de material
+// ── Construir sliders con input editable desde elementos <sl> ─────────────────
+function buildSliders(){
+  document.querySelectorAll('sl').forEach(el=>{
+    const id=el.getAttribute('id');
+    const lbl=el.getAttribute('lbl');
+    const mn=el.getAttribute('mn');
+    const mx=el.getAttribute('mx');
+    const st=el.getAttribute('st');
+    const val=el.getAttribute('val');
+    const dec=el.getAttribute('dec')||'1';
+    const cb=el.getAttribute('cb')||'';
+    const hide=el.getAttribute('hide')||'0';
+    const div=document.createElement('div');
+    div.className='fld';
+    div.id='fld_'+id;
+    if(hide==='1') div.style.display='none';
+    div.innerHTML=`
+      <label for="sl_${id}">${lbl}</label>
+      <div class="row">
+        <input type="range" id="sl_${id}" min="${mn}" max="${mx}" step="${st}" value="${val}"
+          oninput="syncFromSlider('${id}','${dec}','${cb}')">
+        <input type="number" class="nval" id="nv_${id}" value="${parseFloat(val).toFixed(parseInt(dec))}"
+          min="${mn}" max="${mx}" step="${st}"
+          oninput="syncFromInput('${id}','${dec}','${cb}')"
+          onblur="clampInput('${id}','${mn}','${mx}','${dec}','${cb}')">
+      </div>`;
+    el.replaceWith(div);
+  });
+}
+
+function syncFromSlider(id,dec,cb){
+  const val=g('sl_'+id).value;
+  g('nv_'+id).value=parseFloat(val).toFixed(parseInt(dec));
+  if(cb) window[cb](gv('geo_type'));
+  run();
+}
+function syncFromInput(id,dec,cb){
+  const inp=g('nv_'+id);
+  const val=parseFloat(inp.value);
+  if(!isNaN(val)){g('sl_'+id).value=val;}
+  if(cb) window[cb](gv('geo_type'));
+  run();
+}
+function clampInput(id,mn,mx,dec,cb){
+  const inp=g('nv_'+id);
+  let val=parseFloat(inp.value);
+  if(isNaN(val)||val<parseFloat(mn)) val=parseFloat(mn);
+  if(val>parseFloat(mx)) val=parseFloat(mx);
+  inp.value=val.toFixed(parseInt(dec));
+  g('sl_'+id).value=val;
+  if(cb) window[cb](gv('geo_type'));
+  run();
+}
+function sv(id){return parseFloat(g('nv_'+id).value)||0;}
+
+// ── Materiales ────────────────────────────────────────────────────────────────
 function buildMatCards(){
-  const cont=g('mat_cards');
-  cont.innerHTML='';
+  const cont=g('mat_cards'); cont.innerHTML='';
   MATS.forEach(m=>{
     const d=document.createElement('div');
     d.className='mat-card'+(m.id===selectedMat?' selected':'');
     d.id='mc_'+m.id;
-    d.innerHTML=`<div class="mat-name">${m.name}</div><div class="mat-stat">${m.Sy?'Sy='+m.Sy+' MPa':'—'}</div><div class="mat-stat" style="color:#aaa">${m.nota}</div>`;
+    d.innerHTML=`<div class="mat-name">${m.name}</div>
+      <div class="mat-stat">${m.Sy?'Sy = '+m.Sy+' MPa':'Personalizado'}</div>
+      <div class="mat-stat" style="color:#aaa;margin-top:1px">${m.nota}</div>`;
     d.onclick=()=>selectMat(m.id);
     cont.appendChild(d);
   });
 }
-
 function selectMat(id){
   selectedMat=id;
   document.querySelectorAll('.mat-card').forEach(c=>c.classList.remove('selected'));
   const mc=g('mc_'+id); if(mc) mc.classList.add('selected');
   const m=MATS.find(x=>x.id===id);
-  if(m&&m.Sy){g('cas_sy').value=m.Sy; sy('cas_sy',m.Sy,0);}
+  const isCustom=(id==='custom');
+  g('custom_calc_box').style.display=isCustom?'block':'none';
+  if(m&&m.Sy){
+    g('sl_cas_sy').value=m.Sy; g('nv_cas_sy').value=m.Sy;
+  }
+  updateCasInfo(); run();
+}
+
+// ── Calculadora Sy personalizado ──────────────────────────────────────────────
+function updateSyMethod(){
+  const met=gv('sy_method');
+  g('sy_direct_box').style.display=met==='direct'?'block':'none';
+  g('sy_hydro_box').style.display= met==='hydro'?'block':'none';
+  g('sy_su_box').style.display=    met==='su'?'block':'none';
+  if(met==='direct') applySyDirect();
+  if(met==='hydro')  calcSyFromHydro();
+  if(met==='su')     calcSyFromSu();
+}
+function applySyDirect(){
+  const sy=parseFloat(g('sy_direct').value)||0;
+  setSy(sy,`S_y = ${sy} MPa (ingresado manualmente).`);
+}
+function calcSyFromHydro(){
+  const P=parseFloat(g('sy_hydro_p').value)||0;
+  const OD=sv('cas_od'), t=sv('cas_t');
+  if(OD>0&&t>0){
+    const sy=P*OD/(2*t);
+    setSy(sy,`A partir de P_fluencia hidrostática = ${P} MPa: S_y ≈ ${sy.toFixed(1)} MPa.
+    Esta es una estimación — la presión de fluencia real puede diferir de la de rotura.`);
+  }
+}
+function calcSyFromSu(){
+  const Su=parseFloat(g('sy_su_val').value)||0;
+  const m=MATS.find(x=>x.id===selectedMat);
+  const factor=0.70;
+  const sy=Su*factor;
+  setSy(sy,`Estimado como 70% de S_u = ${Su} MPa → S_y ≈ ${sy.toFixed(1)} MPa.
+  Este factor varía según el material: ~60-80% para aceros, ~70-90% para aluminio.
+  Consulte el datasheet del fabricante para mayor precisión.`);
+}
+function setSy(sy,msg){
+  const clamped=Math.max(20,Math.min(700,sy));
+  g('sl_cas_sy').value=clamped; g('nv_cas_sy').value=clamped.toFixed(0);
+  g('sy_result').innerHTML=`<span class="badge info">${msg}</span>`;
   updateCasInfo(); run();
 }
 
 function updateCasInfo(){
-  const OD=v('cas_od'), t=v('cas_t'), Sy=v('cas_sy'), FS=v('cas_fs');
+  const OD=sv('cas_od'), t=sv('cas_t'), Sy=sv('cas_sy'), FS=sv('cas_fs');
+  if(OD<=0||t<=0) return;
   const Pb=2*Sy*t/OD, Pw=Pb/FS;
   g('cas_info').innerHTML=`
-    <div style="display:flex;gap:.5rem;flex-wrap:wrap">
-      <span class="badge info">P burst = ${Pb.toFixed(2)} MPa</span>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.25rem">
+      <span class="badge info">P<sub>burst</sub> = ${Pb.toFixed(2)} MPa</span>
       <span class="badge ok">MEOP (FS ${FS.toFixed(1)}) = ${Pw.toFixed(3)} MPa</span>
       <span class="badge info">OD/t = ${(OD/t).toFixed(1)}</span>
     </div>`;
 }
 
+// ── Tabs ──────────────────────────────────────────────────────────────────────
 function showTab(t){
   document.querySelectorAll('.tab').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(el=>el.classList.remove('active'));
@@ -292,30 +442,31 @@ function showTab(t){
   if(t==='results'||t==='tabla'||t==='viability') run();
 }
 
+// ── Propelentes ───────────────────────────────────────────────────────────────
 function onPropChange(){
-  const t=gv('prop_type'); if(t==='custom')return;
+  const t=gv('prop_type'); if(t==='custom') return;
   const p=PROPS[t];
-  g('rho').value=p.rho;   sy('rho',p.rho,0);
-  g('aa').value=p.a;      sy('aa',p.a,1);
-  g('nn').value=p.n;      sy('nn',p.n,2);
-  g('cstar').value=p.cstar; sy('cstar',p.cstar,0);
-  g('cf').value=p.cf;     sy('cf',p.cf,2);
-  g('tc').value=p.tc;     sy('tc',p.tc,0);
+  [['rho',0],['aa',1],['nn',2],['cstar',0],['cf',2],['tc',0]].forEach(([id,dec])=>{
+    const key={rho:'rho',aa:'a',nn:'n',cstar:'cstar',cf:'cf',tc:'tc'}[id];
+    const val=p[key];
+    g('sl_'+id).value=val; g('nv_'+id).value=parseFloat(val).toFixed(dec);
+  });
   run();
 }
 
+// ── Geometría del grano ───────────────────────────────────────────────────────
 function onGeoChange(){
   const geo=gv('geo_type');
-  g('fld_star_n').style.display=geo==='star'?'block':'none';
-  g('fld_star_f').style.display=geo==='star'?'block':'none';
-  g('fld_fin_n').style.display=geo==='finocyl'?'block':'none';
-  g('fld_fin_w').style.display=geo==='finocyl'?'block':'none';
+  const starIds=['star_n','star_f'], finIds=['fin_n','fin_w'];
+  starIds.forEach(id=>g('fld_'+id).style.display=geo==='star'?'block':'none');
+  finIds.forEach(id=> g('fld_'+id).style.display=geo==='finocyl'?'block':'none');
   drawGeo(geo);
 }
-
 function drawGeo(geo){
+  if(!geo) geo=gv('geo_type');
   const svg=g('geo_preview');
-  const rg=v('od_g')/2,rc=v('core')/2,scale=50/rg,R=rg*scale,Rc=rc*scale;
+  const rg=sv('od_g')/2||21, rc=sv('core')/2||6;
+  const scale=50/rg, R=rg*scale, Rc=rc*scale;
   let h='';
   if(geo==='bates'||geo==='tubular'){
     h+=`<circle r="${R}" fill="#F0D080" stroke="#A08030" stroke-width="1.5"/>`;
@@ -324,16 +475,24 @@ function drawGeo(geo){
     h+=`<circle r="${R}" fill="#F0D080" stroke="#A08030" stroke-width="1.5"/>`;
     h+=`<circle r="3" fill="#1A3A5C"/>`;
   } else if(geo==='star'){
-    const n=parseInt(v('star_n')||5),f=v('star_f')||0.45,Ri=R*f;
+    const n=parseInt(sv('star_n')||5), f=sv('star_f')||0.45, Ri=R*f;
     let pts='';
-    for(let i=0;i<n*2;i++){const a=Math.PI*i/n-Math.PI/2,r=i%2===0?R:Ri;pts+=`${(r*Math.cos(a)).toFixed(1)},${(r*Math.sin(a)).toFixed(1)} `;}
+    for(let i=0;i<n*2;i++){
+      const a=Math.PI*i/n-Math.PI/2, r=i%2===0?R:Ri;
+      pts+=`${(r*Math.cos(a)).toFixed(1)},${(r*Math.sin(a)).toFixed(1)} `;
+    }
     h+=`<polygon points="${pts}" fill="#F0D080" stroke="#A08030" stroke-width="1.5"/>`;
     h+=`<circle r="3" fill="#1A3A5C"/>`;
   } else if(geo==='finocyl'){
     h+=`<circle r="${R}" fill="#F0D080" stroke="#A08030" stroke-width="1.5"/>`;
     h+=`<circle r="${Rc}" fill="#1A3A5C" opacity="0.4"/>`;
-    const nf=parseInt(v('fin_n')||4);
-    for(let i=0;i<nf;i++){const a=Math.PI*2*i/nf;h+=`<line x1="${(Rc*Math.cos(a)).toFixed(1)}" y1="${(Rc*Math.sin(a)).toFixed(1)}" x2="${(R*Math.cos(a)).toFixed(1)}" y2="${(R*Math.sin(a)).toFixed(1)}" stroke="#1A3A5C" stroke-width="3" stroke-linecap="round"/>`;}
+    const nf=parseInt(sv('fin_n')||4);
+    for(let i=0;i<nf;i++){
+      const a=Math.PI*2*i/nf;
+      h+=`<line x1="${(Rc*Math.cos(a)).toFixed(1)}" y1="${(Rc*Math.sin(a)).toFixed(1)}"
+               x2="${(R*Math.cos(a)).toFixed(1)}"  y2="${(R*Math.sin(a)).toFixed(1)}"
+               stroke="#1A3A5C" stroke-width="3" stroke-linecap="round"/>`;
+    }
   } else if(geo==='moon'){
     h+=`<circle r="${R}" fill="#F0D080" stroke="#A08030" stroke-width="1.5"/>`;
     h+=`<ellipse cx="${(Rc*0.5).toFixed(1)}" cy="0" rx="${(Rc*1.1).toFixed(1)}" ry="${Rc.toFixed(1)}" fill="#1A3A5C" opacity="0.5"/>`;
@@ -341,72 +500,76 @@ function drawGeo(geo){
   svg.innerHTML=h;
 }
 
+// ── Área de combustión ────────────────────────────────────────────────────────
 function calcAb(geo,rg,rc,nseg,lseg,star_n,star_f,fin_n,fin_w){
   const PI=Math.PI;
-  if(geo==='bates')   return PI*(rg*rg-rc*rc)*2*nseg+PI*rc*2*lseg*nseg;
-  if(geo==='tubular') return PI*rc*2*lseg*nseg;
+  if(geo==='bates')     return PI*(rg*rg-rc*rc)*2*nseg + PI*rc*2*lseg*nseg;
+  if(geo==='tubular')   return PI*rc*2*lseg*nseg;
   if(geo==='endburner') return PI*rg*rg*nseg;
   if(geo==='star'){const Ri=rg*star_f;return(2*rg*Math.sin(PI/star_n)*star_n+2*Ri*Math.sin(PI/star_n)*star_n)*0.5*lseg*nseg;}
-  if(geo==='finocyl') return PI*rc*2*lseg*nseg+fin_n*2*(rg-rc)*lseg*nseg;
-  if(geo==='moon')    return PI*rc*lseg*nseg*1.4;
-  return PI*(rg*rg-rc*rc)*2*nseg+PI*rc*2*lseg*nseg;
+  if(geo==='finocyl')   return PI*rc*2*lseg*nseg + fin_n*2*(rg-rc)*lseg*nseg;
+  if(geo==='moon')      return PI*rc*lseg*nseg*1.4;
+  return PI*(rg*rg-rc*rc)*2*nseg + PI*rc*2*lseg*nseg;
 }
 
+// ── Simulación ────────────────────────────────────────────────────────────────
 function simulate(){
-  const rho=v('rho'),a_ms=v('aa')/1000,n=v('nn'),cs=v('cstar'),cf=v('cf');
-  const od_g=v('od_g'),core_d=v('core'),nseg=v('nseg'),lseg=v('lseg');
-  const dt_d=v('dt'),de_d=v('de');
-  const OD=v('cas_od'),t_w=v('cas_t'),Sy=v('cas_sy'),FS=v('cas_fs'),pct=v('pct_lim')/100;
+  const rho=sv('rho'), a_ms=sv('aa')/1000, n=sv('nn'), cs=sv('cstar'), cf=sv('cf');
+  const od_g=sv('od_g'), core_d=sv('core'), nseg=sv('nseg'), lseg=sv('lseg');
+  const dt_d=sv('dt'), de_d=sv('de');
+  const OD=sv('cas_od'), t_w=sv('cas_t'), Sy=sv('cas_sy'), FS=sv('cas_fs');
+  const pct=sv('pct_lim')/100;
   const geo=gv('geo_type');
-  const star_n=parseInt(v('star_n')||5),star_f=v('star_f')||0.45;
-  const fin_n=parseInt(v('fin_n')||4),fin_w=v('fin_w')||4;
-  const At=Math.PI*(dt_d/2)**2,Ae=Math.PI*(de_d/2)**2;
-  const Pb=2*Sy*t_w/OD, Pw=Pb/FS;
+  const star_n=sv('star_n')||5, star_f=sv('star_f')||0.45;
+  const fin_n=sv('fin_n')||4, fin_w=sv('fin_w')||4;
+  const At=Math.PI*(dt_d/2)**2, Ae=Math.PI*(de_d/2)**2;
+  const Pb=OD>0&&t_w>0?2*Sy*t_w/OD:1, Pw=Pb/FS;
   const DT=0.010;
-  let t=0,rg=od_g/2,rc=core_d/2;
+  let t=0, rg=od_g/2, rc=core_d/2;
   const ts=[],Fs=[],Ps=[],Isps=[],rbs=[],Abs=[],Kns=[];
   let It=0;
   for(let i=0;i<15000;i++){
     const Ab=calcAb(geo,rg,rc,nseg,lseg,star_n,star_f,fin_n,fin_w);
     if(Ab<=0||rc>=rg) break;
-    const Kn=Ab/At,Pc=(rho*a_ms*cs*Kn*1e-6)**(1/(1-n));
-    const rb=a_ms*(Pc**n)*1000,F=cf*Pc*1e6*At*1e-6;
-    const mdot=rho*rb*1e-3*Ab*1e-6,Isp=mdot>0?F/(mdot*G0):0;
-    ts.push(t);Fs.push(F);Ps.push(Pc);Isps.push(Math.min(Isp,500));
-    rbs.push(rb);Abs.push(Ab);Kns.push(Kn);It+=F*DT;
+    const Kn=Ab/At, Pc=(rho*a_ms*cs*Kn*1e-6)**(1/(1-n));
+    const rb=a_ms*(Pc**n)*1000, F=cf*Pc*1e6*At*1e-6;
+    const mdot=rho*rb*1e-3*Ab*1e-6, Isp=mdot>0?F/(mdot*G0):0;
+    ts.push(t); Fs.push(F); Ps.push(Pc); Isps.push(Math.min(Isp,500));
+    rbs.push(rb); Abs.push(Ab); Kns.push(Kn); It+=F*DT;
     if(geo==='bates'||geo==='tubular'||geo==='finocyl'||geo==='moon') rc+=rb*DT;
     else if(geo==='endburner') break;
     else if(geo==='star') rc+=rb*DT*0.8;
     t+=DT;
   }
-  const Pc_nom=Ps[0]||0,F_nom=Fs[0]||0,Isp_nom=Isps[0]||0,tb=ts[ts.length-1]||0;
+  const Pc_nom=Ps[0]||0, F_nom=Fs[0]||0, Isp_nom=Isps[0]||0;
+  const tb=ts[ts.length-1]||0;
   const F_avg=Fs.length?Fs.reduce((a,b)=>a+b,0)/Fs.length:0;
   const Pc_avg=Ps.length?Ps.reduce((a,b)=>a+b,0)/Ps.length:0;
   const Isp_avg=Isps.length?Isps.reduce((a,b)=>a+b,0)/Isps.length:0;
   const Kn_nom=Kns[0]||0;
   let clase='?';
-  if(It<2.5)clase='A';else if(It<5)clase='B';else if(It<10)clase='C';
-  else if(It<20)clase='D';else if(It<40)clase='E';else if(It<80)clase='F';
-  else if(It<160)clase='G';else if(It<320)clase='H';else if(It<640)clase='I';
-  else if(It<1280)clase='J';else if(It<2560)clase='K';else clase='L+';
-  return{ts,Fs,Ps,Isps,rbs,Abs,Kns,It,F_nom,F_avg,Pc_nom,Pc_avg,Isp_nom,Isp_avg,
-    tb,clase,Pw,Pb,pct,At,Ae,DT,od_g,core_d,nseg,lseg,dt_d,Kn_nom,FS,OD,t_w,Sy};
+  if(It<2.5)clase='A'; else if(It<5)clase='B'; else if(It<10)clase='C';
+  else if(It<20)clase='D'; else if(It<40)clase='E'; else if(It<80)clase='F';
+  else if(It<160)clase='G'; else if(It<320)clase='H'; else if(It<640)clase='I';
+  else if(It<1280)clase='J'; else if(It<2560)clase='K'; else clase='L+';
+  return{ts,Fs,Ps,Isps,rbs,Abs,Kns,It,F_nom,F_avg,Pc_nom,Pc_avg,
+    Isp_nom,Isp_avg,tb,clase,Pw,Pb,pct,At,Ae,DT,od_g,core_d,nseg,lseg,dt_d,Kn_nom,FS,OD,t_w,Sy};
 }
 
-let ch1=null,ch2=null;
+let ch1=null, ch2=null;
 function run(){
   const r=simulate(); lastSim=r;
   updateCasInfo();
 
-  // Indicadores
-  const pct_pc=(r.Pc_nom/r.Pw*100).toFixed(1);
+  const pct_pc=(r.Pw>0?(r.Pc_nom/r.Pw*100):999).toFixed(1);
   const safe=r.Pc_nom<=r.Pw;
-  const cls=safe?'ok':'err',lbl=safe?'Dentro del MEOP':'SUPERA MEOP';
+  const cls=safe?'ok':'err', lbl=safe?'Dentro del MEOP':'SUPERA EL MEOP';
+
   g('metrics').innerHTML=`
     <div class="met"><div class="lbl">Empuje nominal</div><div class="num">${r.F_nom.toFixed(1)}<span class="unit">N</span></div></div>
     <div class="met"><div class="lbl">Empuje promedio</div><div class="num">${r.F_avg.toFixed(1)}<span class="unit">N</span></div></div>
     <div class="met"><div class="lbl">Impulso total</div><div class="num">${r.It.toFixed(0)}<span class="unit">N·s</span></div></div>
-    <div class="met"><div class="lbl">Tiempo t_b</div><div class="num">${r.tb.toFixed(2)}<span class="unit">s</span></div></div>
+    <div class="met"><div class="lbl">Tiempo comb.</div><div class="num">${r.tb.toFixed(2)}<span class="unit">s</span></div></div>
     <div class="met"><div class="lbl">Clase Tripoli/NAR</div><div class="num">${r.clase}</div></div>`;
   g('metrics2').innerHTML=`
     <div class="met"><div class="lbl">Pc nominal</div><div class="num">${r.Pc_nom.toFixed(3)}<span class="unit">MPa</span></div></div>
@@ -415,9 +578,10 @@ function run(){
     <div class="met"><div class="lbl">Isp promedio</div><div class="num">${r.Isp_avg.toFixed(0)}<span class="unit">s</span></div></div>
     <div class="met"><div class="lbl">Ae/At</div><div class="num">${(r.Ae/r.At).toFixed(2)}</div></div>`;
   g('warn_zone').innerHTML=`<span class="badge ${cls}">${lbl} — Pc es ${pct_pc}% del MEOP</span>`+
-    (!safe?`<div class="ebox">Pc supera el MEOP. Riesgo de fallo del casing. Aumente Dt, reduzca el grano o use un casing más resistente.</div>`:'');
+    (!safe?`<div class="ebox">La presión de cámara supera el límite seguro del casing.
+    Para solucionarlo: aumente el diámetro de la garganta (Dt), reduzca el OD del grano,
+    disminuya el número de segmentos, o use un casing con mayor resistencia (S_y más alto).</div>`:'');
 
-  // Gráficas
   const step=Math.max(1,Math.floor(r.ts.length/150));
   const tD=r.ts.filter((_,i)=>i%step===0);
   const FD=r.Fs.filter((_,i)=>i%step===0).map(x=>+x.toFixed(2));
@@ -437,96 +601,116 @@ function run(){
   ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
     scales:{x:{ticks:{maxTicksLimit:10,font:{size:10}}},
       y:{title:{display:true,text:'Isp (s)',font:{size:11}},ticks:{font:{size:10}},beginAtZero:false}}}});
-
-  // Tabla
   buildTable(r);
-  // Viabilidad
   buildViability(r);
 }
 
+// ── Viabilidad ────────────────────────────────────────────────────────────────
 function buildViability(r){
-  // Criterios de viabilidad
+  const ID_cas=sv('cas_od'), t_cas=sv('cas_t');
   const checks=[
-    {label:'Pc < MEOP del casing',
-     ok: r.Pc_nom <= r.Pw,
-     val: `Pc=${r.Pc_nom.toFixed(3)} MPa | MEOP=${r.Pw.toFixed(3)} MPa`,
-     detalle: r.Pc_nom<=r.Pw?'Casing estructuralmente apto.':'Pc supera el MEOP. Aumentar Dt, reducir grano, o usar casing más resistente.'},
-    {label:'Factor de seguridad adecuado',
-     ok: r.Pb/r.Pc_nom >= r.FS,
-     val: `FS real = ${(r.Pb/r.Pc_nom).toFixed(2)}x (mín recomendado: ${r.FS.toFixed(1)}x)`,
-     detalle: r.Pb/r.Pc_nom>=r.FS?'Margen estructural suficiente.':'FS insuficiente. Tripoli recomienda mín FS=4 para PVC y FS=3 para metales.'},
-    {label:'Kn en rango estable (100–300)',
-     ok: r.Kn_nom>=100 && r.Kn_nom<=300,
-     val: `Kn = ${r.Kn_nom.toFixed(0)}`,
-     detalle: r.Kn_nom<100?'Kn muy bajo: motor puede extinguirse.':r.Kn_nom>300?'Kn muy alto: riesgo de inestabilidad y Pc excesiva.':'Kn dentro del rango estable.'},
-    {label:'Grano cabe en el casing (OD grano < ID casing)',
-     ok: v('od_g') < (v('cas_od')-2*v('cas_t')),
-     val: `OD grano=${v('od_g').toFixed(1)} mm | ID casing=${(v('cas_od')-2*v('cas_t')).toFixed(1)} mm`,
-     detalle: v('od_g')<(v('cas_od')-2*v('cas_t'))?'Geometría compatible.':'El grano no cabe en el casing. Reduzca OD del grano o use un tubo más grande.'},
-    {label:'Core > 0 (grano no sólido)',
-     ok: v('core')>2,
-     val: `Core Ø = ${v('core').toFixed(1)} mm`,
-     detalle: v('core')>2?'Canal central definido.':'Core demasiado pequeño. El motor puede no ignitar o extinguirse.'},
-    {label:'Ae/At > 1 (tobera con divergente)',
-     ok: r.Ae/r.At > 1.0,
-     val: `Ae/At = ${(r.Ae/r.At).toFixed(2)}`,
-     detalle: r.Ae/r.At>1?'Tobera divergente correcta.':'La salida es menor que la garganta. La tobera no generará expansión supersónica.'},
-    {label:'Impulso total en rango clasificado (>2.5 N·s)',
-     ok: r.It>=2.5,
-     val: `It = ${r.It.toFixed(0)} N·s | Clase ${r.clase}`,
-     detalle: r.It>=2.5?`Motor clasificado como clase ${r.clase}.`:'Impulso insuficiente para clasificación.'},
-    {label:'Tiempo de combustión razonable (0.5–30 s)',
-     ok: r.tb>=0.5 && r.tb<=30,
-     val: `tb = ${r.tb.toFixed(2)} s`,
-     detalle: r.tb<0.5?'Combustión demasiado rápida.':r.tb>30?'Combustión excesivamente larga, revisar diseño.':'Tiempo de combustión dentro del rango normal.'},
+    {
+      label:'Presión de cámara dentro del límite del casing',
+      ok: r.Pc_nom<=r.Pw && r.Pw>0,
+      val: `Pc = ${r.Pc_nom.toFixed(3)} MPa | MEOP = ${r.Pw.toFixed(3)} MPa`,
+      msg_ok:'La presión de diseño está por debajo del límite máximo de operación del casing. El tubo es estructuralmente apto para este motor.',
+      msg_fail:`La presión de cámara (${r.Pc_nom.toFixed(3)} MPa) supera el MEOP del casing (${r.Pw.toFixed(3)} MPa). Esto puede provocar la rotura del tubo durante el disparo. Soluciones: (1) Aumente el diámetro de garganta Dt para bajar la presión, (2) reduzca el área de combustión achicando el grano o aumentando el core, (3) cambie a un material de casing con mayor S_y.`,
+    },
+    {
+      label:'Factor de seguridad estructural suficiente',
+      ok: r.Pb>0 && r.Pc_nom>0 && (r.Pb/r.Pc_nom)>=r.FS,
+      val: `FS real = ${r.Pc_nom>0?(r.Pb/r.Pc_nom).toFixed(2):'—'}x | FS mínimo configurado = ${r.FS.toFixed(1)}x`,
+      msg_ok:`El casing tiene un margen estructural real de ${r.Pc_nom>0?(r.Pb/r.Pc_nom).toFixed(2):'—'}x sobre la presión de cámara. Tripoli recomienda mínimo FS=4 para PVC y FS=3 para casings metálicos.`,
+      msg_fail:`El factor de seguridad real es insuficiente. Tripoli Rocketry recomienda un mínimo de FS=4 para PVC y FS=3 para metales. Para aumentarlo: use un tubo de mayor espesor de pared, un material más resistente, o baje la presión de cámara.`,
+    },
+    {
+      label:'Kn en rango de combustión estable (100 – 300)',
+      ok: r.Kn_nom>=100 && r.Kn_nom<=300,
+      val: `Kn = ${r.Kn_nom.toFixed(0)}`,
+      msg_ok:`El Kn inicial de ${r.Kn_nom.toFixed(0)} está dentro del rango estable. Esto garantiza una combustión sostenida sin riesgo de apagado ni sobrpresurización por inestabilidad.`,
+      msg_fail: r.Kn_nom<100
+        ? `Kn = ${r.Kn_nom.toFixed(0)} es demasiado bajo. Un Kn menor a 100 puede provocar que el motor se apague antes de consumir todo el propelente. Para subirlo: reduzca el diámetro de garganta (Dt) o aumente el área de combustión (grano más grande o más segmentos).`
+        : `Kn = ${r.Kn_nom.toFixed(0)} es demasiado alto. Valores sobre 300 pueden generar presiones de cámara inestables y picos de sobrepresión. Para bajarlo: aumente el Dt o reduzca el área de grano.`,
+    },
+    {
+      label:'El grano cabe dentro del casing',
+      ok: sv('od_g') < (ID_cas - 2*t_cas) && (ID_cas-2*t_cas)>0,
+      val: `OD grano = ${sv('od_g').toFixed(1)} mm | ID casing = ${(ID_cas-2*t_cas).toFixed(1)} mm`,
+      msg_ok:`El grano (OD ${sv('od_g').toFixed(1)} mm) entra dentro del casing (ID ${(ID_cas-2*t_cas).toFixed(1)} mm) con una holgura de ${((ID_cas-2*t_cas)-sv('od_g')).toFixed(1)} mm. Recuerde incluir el liner y la capa inhibidora en el ajuste final.`,
+      msg_fail:`El diámetro exterior del grano (${sv('od_g').toFixed(1)} mm) es mayor o igual que el diámetro interior del casing (${(ID_cas-2*t_cas).toFixed(1)} mm). El grano no cabe físicamente en el tubo. Reduzca el OD del grano o use un casing de mayor diámetro.`,
+    },
+    {
+      label:'Canal central (core) definido y funcional',
+      ok: sv('core')>=3 && sv('core')<sv('od_g'),
+      val: `Core Ø = ${sv('core').toFixed(1)} mm | OD grano = ${sv('od_g').toFixed(1)} mm`,
+      msg_ok:`El canal central de ${sv('core').toFixed(1)} mm de diámetro es suficiente para iniciar y mantener la combustión desde el interior del grano.`,
+      msg_fail: sv('core')<3
+        ? `El canal central es demasiado pequeño (${sv('core').toFixed(1)} mm). Un core menor a 3 mm dificulta la ignición y puede extinguir la combustión. Aumente el diámetro del core.`
+        : `El core (${sv('core').toFixed(1)} mm) es mayor o igual al OD del grano (${sv('od_g').toFixed(1)} mm). No hay propelente. Reduzca el core o aumente el OD del grano.`,
+    },
+    {
+      label:'Tobera con sección divergente (Ae/At > 1)',
+      ok: r.Ae/r.At > 1.0,
+      val: `Ae/At = ${(r.Ae/r.At).toFixed(2)} | De = ${sv('de').toFixed(1)} mm | Dt = ${sv('dt').toFixed(1)} mm`,
+      msg_ok:`La tobera tiene una relación de expansión Ae/At = ${(r.Ae/r.At).toFixed(2)}, lo que garantiza aceleración supersónica del gas y un coeficiente de empuje (CF) mayor a 1. Nakka recomienda Ae/At entre 2 y 12 para motores amateur.`,
+      msg_fail:`El diámetro de salida (De = ${sv('de').toFixed(1)} mm) es menor o igual que la garganta (Dt = ${sv('dt').toFixed(1)} mm). La tobera no tiene sección divergente y no generará flujo supersónico, lo que reduce el empuje significativamente. Aumente De.`,
+    },
+    {
+      label:'Impulso total clasificado por Tripoli / NAR',
+      ok: r.It>=2.5,
+      val: `It = ${r.It.toFixed(0)} N·s | Clase ${r.clase}`,
+      msg_ok:`El motor produce ${r.It.toFixed(0)} N·s, clasificado como clase ${r.clase} según la escala Tripoli/NAR. Recuerde que a partir de clase H se requiere certificación Level 1 de Tripoli o NAR para operarlo.`,
+      msg_fail:`El impulso total (${r.It.toFixed(0)} N·s) es inferior a 2.5 N·s (clase A). Revise que el grano tenga masa suficiente y que los parámetros del propelente sean correctos.`,
+    },
+    {
+      label:'Tiempo de combustión razonable (0.5 – 30 s)',
+      ok: r.tb>=0.5 && r.tb<=30,
+      val: `tb = ${r.tb.toFixed(2)} s`,
+      msg_ok:`El tiempo de combustión de ${r.tb.toFixed(2)} s es adecuado para un motor de esta clase. Tiempos muy cortos generan altas aceleraciones; tiempos muy largos aumentan la masa de propelente a bordo durante la fase de vuelo.`,
+      msg_fail: r.tb<0.5
+        ? `La combustión dura solo ${r.tb.toFixed(2)} s, lo que indica un motor de quema muy rápida. Esto puede generar picos de presión difíciles de controlar. Considere aumentar el core, reducir el área de grano, o usar un propelente de menor tasa de quema.`
+        : `La combustión dura ${r.tb.toFixed(2)} s, un tiempo excesivamente largo para un motor cohete estándar. Revise la configuración del grano y los parámetros del propelente.`,
+    },
   ];
 
   const nOk=checks.filter(c=>c.ok).length;
-  const viable=checks.every(c=>c.ok);
-  const criticos=checks.filter(c=>!c.ok&&['Pc < MEOP del casing','Factor de seguridad adecuado','Grano cabe en el casing (OD grano < ID casing)'].includes(c.label));
-  const esCritico=criticos.length>0;
+  const viable=nOk===checks.length;
+  const criticos=checks.slice(0,2).some(c=>!c.ok);
+  const estado=viable?'ok':criticos?'err':'warn';
+  const etiq=viable?'✓ MOTOR VIABLE':criticos?'✗ NO VIABLE — Problemas críticos':'⚠ VIABLE CON ADVERTENCIAS';
 
   g('viab_summary').innerHTML=`
-    <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
-      <span class="badge ${viable?'ok':esCritico?'err':'warn'}" style="font-size:14px;padding:6px 16px">
-        ${viable?'✓ MOTOR VIABLE':esCritico?'✗ NO VIABLE':'⚠ VIABLE CON ADVERTENCIAS'}
-      </span>
-      <span style="font-size:13px;color:#666">${nOk} de ${checks.length} criterios cumplidos</span>
-    </div>`;
+    <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:.5rem">
+      <span class="badge ${estado}" style="font-size:14px;padding:7px 18px">${etiq}</span>
+      <span style="font-size:12px;color:#888">${nOk} de ${checks.length} criterios cumplidos</span>
+    </div>
+    ${viable?'<div class="ibox">Todos los criterios de diseño están dentro de los rangos recomendados. El motor está listo para proceder a la fabricación y prueba hidrostática.</div>':''}`;
 
-  // Fallas
-  const fails=checks.filter(c=>!c.ok);
-  if(fails.length){
-    g('viab_fail').innerHTML=`<div class="rbox"><h3>Problemas detectados</h3><ul>${fails.map(c=>`<li><strong>${c.label}</strong> — ${c.detalle}</li>`).join('')}</ul></div>`;
-  } else {
-    g('viab_fail').innerHTML='';
-  }
-  // Aprobados
-  const oks=checks.filter(c=>c.ok);
-  g('viab_ok').innerHTML=`<div class="gbox"><h3>Criterios aprobados</h3><ul>${oks.map(c=>`<li>${c.label} (${c.val})</li>`).join('')}</ul></div>`;
-
-  // Tabla detalle
-  g('viab_table').innerHTML=`<table class="tbl" style="margin-top:.75rem">
-    <thead><tr><th>Criterio</th><th>Estado</th><th>Valor</th><th>Detalle</th></tr></thead>
-    <tbody>${checks.map(c=>`<tr>
-      <td>${c.label}</td>
-      <td><span class="badge ${c.ok?'ok':'err'}">${c.ok?'OK':'FALLA'}</span></td>
-      <td style="font-family:monospace;font-size:11px">${c.val}</td>
-      <td style="font-size:11px;color:#666">${c.detalle}</td>
-    </tr>`).join('')}</tbody>
-  </table>`;
+  g('viab_list').innerHTML=checks.map(c=>`
+    <div class="viab-row">
+      <div class="viab-icon">${c.ok?'✅':'❌'}</div>
+      <div class="viab-body">
+        <div class="viab-title">${c.label}</div>
+        <div class="viab-val">${c.val}</div>
+        <div class="viab-msg ${c.ok?'good':'bad'}">${c.ok?c.msg_ok:c.msg_fail}</div>
+      </div>
+    </div>`).join('');
 }
 
+// ── Tabla ─────────────────────────────────────────────────────────────────────
 function buildTable(r){
   const step=Math.max(1,Math.floor(r.ts.length/80));
-  let html='',acum=0;
+  let html='', acum=0;
   for(let i=0;i<r.ts.length;i+=step){
     acum+=r.Fs[i]*r.DT;
-    html+=`<tr><td>${r.ts[i].toFixed(3)}</td><td>${r.Fs[i].toFixed(2)}</td><td>${r.Ps[i].toFixed(4)}</td><td>${r.Isps[i].toFixed(1)}</td><td>${r.rbs[i].toFixed(3)}</td><td>${r.Abs[i].toFixed(0)}</td><td>${r.Kns[i].toFixed(1)}</td><td>${acum.toFixed(2)}</td></tr>`;
+    html+=`<tr><td>${r.ts[i].toFixed(3)}</td><td>${r.Fs[i].toFixed(2)}</td><td>${r.Ps[i].toFixed(4)}</td>
+    <td>${r.Isps[i].toFixed(1)}</td><td>${r.rbs[i].toFixed(3)}</td><td>${r.Abs[i].toFixed(0)}</td>
+    <td>${r.Kns[i].toFixed(1)}</td><td>${acum.toFixed(2)}</td></tr>`;
   }
   g('tbl_body').innerHTML=html;
 }
 
+// ── Exportación ───────────────────────────────────────────────────────────────
 function exportCSV(){
   if(!lastSim)return;
   const r=lastSim;
@@ -538,10 +722,9 @@ function exportCSV(){
   }
   dl(csv,'motor_simulado.csv','text/csv');
 }
-
 function exportRASP(){
   if(!lastSim)return;
-  const r=lastSim, rho=v('rho');
+  const r=lastSim, rho=sv('rho');
   const mp=(Math.PI*((r.od_g/2)**2-(r.core_d/2)**2)*r.nseg*r.lseg*1e-9*rho*0.695).toFixed(4);
   const mt=(Math.PI*((r.od_g/2)**2-(r.core_d/2)**2)*r.nseg*r.lseg*1e-9*rho).toFixed(4);
   let eng=`; Simulado por SpaceLabs ITCR\n; Motor clase ${r.clase} — It=${r.It.toFixed(0)} N·s\nMotor-${r.clase} ${r.od_g.toFixed(0)} ${(r.nseg*r.lseg).toFixed(0)} 0 ${mp} ${mt} SpaceLabs\n`;
@@ -550,15 +733,17 @@ function exportRASP(){
   eng+=`${(r.ts[r.ts.length-1]+r.DT).toFixed(3)} 0.000\n;`;
   dl(eng,'motor_simulado.eng','text/plain');
 }
-
 function dl(content,name,mime){
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob([content],{type:mime}));
   a.download=name; document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
 
-// Inicializar
-buildMatCards(); onGeoChange(); run();
+// ── Inicialización ────────────────────────────────────────────────────────────
+buildSliders();
+buildMatCards();
+onGeoChange();
+run();
 </script>
 </body>
 </html>
