@@ -61,7 +61,7 @@ class TabViability extends StatelessWidget {
         label: 'Tobera con sección divergente (Ae/At > 1)',
         ok: r.ae / r.at > 1.0,
         val: 'Ae/At = ${(r.ae / r.at).toStringAsFixed(2)} | De = ${p.deD.toStringAsFixed(1)} mm | Dt = ${p.dtD.toStringAsFixed(1)} mm',
-        msgOk: 'Relación de expansión Ae/At = ${(r.ae / r.at).toStringAsFixed(2)}. Nakka recomienda 2–12 para motores amateur.',
+        msgOk: 'Relación de expansión Ae/At = ${(r.ae / r.at).toStringAsFixed(2)}. Se recomienda Ae/At entre 2 y 12 para motores amateur [1].',
         msgFail: 'De (${p.deD.toStringAsFixed(1)} mm) ≤ Dt (${p.dtD.toStringAsFixed(1)} mm). La tobera no tiene divergente. Aumente De.',
       ),
       _Check(
