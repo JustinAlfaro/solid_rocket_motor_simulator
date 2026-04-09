@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador de Motor Cohete de Propelente Sólido</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#f5f5f3;color:#1a1a1a;padding:1rem}
+h1{font-size:1.3rem;font-weight:500;margin-bottom:1rem;color:#1A3A5C}
+.tabs{display:flex;gap:4px;margin-bottom:1rem;border-bottom:1px solid #ddd;padding-bottom:0}
+.tab{padding:6px 14px;font-size:13px;cursor:pointer;border:1px solid transparent;border-bottom:none;border-radius:6px 6px 0 0;color:#666;background:none}
+.tab.active{border-color:#ddd;background:#fff;color:#1a1a1a;font-weight:500}
+.panel{display:none}.panel.active{display:block}
+.sec{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:1rem 1.25rem;margin-bottom:.75rem}
+.sec-title{font-size:11px;font-weight:500;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.5rem}
+.g5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.5rem}
+.fld label{font-size:12px;color:#666;display:block;margin-bottom:3px}
+.fld .row{display:flex;align-items:center;gap:6px}
+.fld input[type=range]{flex:1;min-width:0}
+.fld .val{font-size:12px;font-weight:500;min-width:52px;text-align:right;color:#1a1a1a}
+.fld select{width:100%;font-size:13px;padding:5px;border:1px solid #ddd;border-radius:6px}
+.met{background:#f5f5f3;border-radius:8px;padding:.6rem .8rem}
+.met .lbl{font-size:11px;color:#888;margin-bottom:3px}
+.met .num{font-size:18px;font-weight:500;color:#1a1a1a;line-height:1.1}
+.met .unit{font-size:11px;color:#888;margin-left:2px}
+.badge{display:inline-block;padding:2px 10px;border-radius:6px;font-size:12px;font-weight:500}
+.ok{background:#eafaf1;color:#1e7a3b}
+.warn{background:#fef9e7;color:#b7770d}
+.err{background:#fdf2f2;color:#a32d2d}
+.wbox{background:#fef9e7;border:1px solid #f0c040;border-radius:6px;padding:.5rem .75rem;font-size:12px;color:#b7770d;margin-top:.5rem}
+.ebox{background:#fdf2f2;border:1px solid #e08080;border-radius:6px;padding:.5rem .75rem;font-size:12px;color:#a32d2d;margin-top:.5rem}
+.cw{position:relative;width:100%}
+.leg{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:#666;margin-bottom:6px}
+.leg span{display:flex;align-items:center;gap:4px}
+.leg i{display:inline-block;border-radius:2px}
+.sep{border:none;border-top:1px solid #eee;margin:.75rem 0}
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{text-align:left;padding:5px 8px;color:#888;font-weight:500;border-bottom:1px solid #eee}
+.tbl td{padding:5px 8px;border-bottom:1px solid #eee;color:#1a1a1a}
+.tbl tr:nth-child(even) td{background:#f9f9f9}
+.btn{padding:6px 14px;font-size:12px;font-weight:500;cursor:pointer;border-radius:6px;border:1px solid #ddd;background:#fff;color:#1a1a1a;margin-right:6px}
+.btn:hover{background:#f5f5f3}
+.geo-svg{display:flex;justify-content:center;margin:.5rem 0}
+footer{margin-top:2rem;font-size:11px;color:#aaa;text-align:center}
+</style>
+</head>
+<body>
+<h1>Simulador de Motor Cohete de Propelente Sólido</h1>
+<p style="font-size:12px;color:#888;margin-bottom:1rem">SpaceLabs · ITCR · Costa Rica — basado en la teoría de Richard Nakka</p>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('config')">Configuración</div>
+  <div class="tab" onclick="showTab('results')">Resultados</div>
+  <div class="tab" onclick="showTab('tabla')">Tabla completa</div>
+</div>
+
+<div id="tab_config" class="panel active">
+<div class="sec">
+  <div class="sec-title">Propelente</div>
+  <div class="g3">
+    <div class="fld" style="grid-column:1/-1">
+      <label>Tipo de propelente</label>
+      <select id="prop_type" onchange="onPropChange()">
+        <option value="knsu">KNSU — KNO₃ + sacarosa</option>
+        <option value="kndx">KNDX — KNO₃ + dextrosa</option>
+        <option value="knmx">KNMX — KNO₃ + sorbitol</option>
+        <option value="kner">KNER — KNO₃ + eritritol</option>
+        <option value="apcp_standard">APCP estándar (74% AP)</option>
+        <option value="apcp_fast">APCP rápido (76% AP)</option>
+        <option value="custom">Personalizado</option>
+      </select>
+    </div>
+    <div class="fld"><label>Densidad ρ (kg/m³)</label><div class="row"><input type="range" id="rho" min="1200" max="2100" step="10" value="1780" oninput="sy('rho',this.value,0);run()"><span class="val" id="rho_v">1780</span></div></div>
+    <div class="fld"><label>Coef. quema a (mm/s@1MPa)</label><div class="row"><input type="range" id="aa" min="0.5" max="30" step="0.1" value="3.8" oninput="sy('aa',this.value,1);run()"><span class="val" id="aa_v">3.8</span></div></div>
+    <div class="fld"><label>Exponente n</label><div class="row"><input type="range" id="nn" min="0.05" max="0.85" step="0.01" value="0.40" oninput="sy('nn',this.value,2);run()"><span class="val" id="nn_v">0.40</span></div></div>
+    <div class="fld"><label>c* (m/s)</label><div class="row"><input type="range" id="cstar" min="300" max="1800" step="10" value="660" oninput="sy('cstar',this.value,0);run()"><span class="val" id="cstar_v">660</span></div></div>
+    <div class="fld"><label>CF empuje</label><div class="row"><input type="range" id="cf" min="1.0" max="1.9" step="0.01" value="1.35" oninput="sy('cf',this.value,2);run()"><span class="val" id="cf_v">1.35</span></div></div>
+    <div class="fld"><label>Temperatura llama Tc (K)</label><div class="row"><input type="range" id="tc" min="800" max="3500" step="50" value="1720" oninput="sy('tc',this.value,0);run()"><span class="val" id="tc_v">1720</span></div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-title">Geometría del grano</div>
+  <div class="fld" style="margin-bottom:.75rem">
+    <label>Tipo de geometría</label>
+    <select id="geo_type" onchange="onGeoChange();run()">
+      <option value="bates">Bates (cilíndrico hueco, inhibido total)</option>
+      <option value="tubular">Tubular (solo superficie lateral)</option>
+      <option value="endburner">End-burner (cara plana)</option>
+      <option value="star">Estrella (star grain)</option>
+      <option value="finocyl">Finocyl (aletas + cilíndrico)</option>
+      <option value="moon">C-slot (ranura en C)</option>
+    </select>
+  </div>
+  <div class="geo-svg"><svg id="geo_preview" width="120" height="120" viewBox="-60 -60 120 120"></svg></div>
+  <div class="g3">
+    <div class="fld"><label>OD grano (mm)</label><div class="row"><input type="range" id="od_g" min="8" max="200" step="0.5" value="42.31" oninput="sy('od_g',this.value,1);run()"><span class="val" id="od_g_v">42.3</span></div></div>
+    <div class="fld"><label>Core Ø / ancho ranura (mm)</label><div class="row"><input type="range" id="core" min="2" max="100" step="0.5" value="12" oninput="sy('core',this.value,1);run()"><span class="val" id="core_v">12.0</span></div></div>
+    <div class="fld"><label>N° segmentos</label><div class="row"><input type="range" id="nseg" min="1" max="10" step="1" value="3" oninput="sy('nseg',this.value,0);run()"><span class="val" id="nseg_v">3</span></div></div>
+    <div class="fld"><label>Long. segmento (mm)</label><div class="row"><input type="range" id="lseg" min="10" max="400" step="1" value="80" oninput="sy('lseg',this.value,0);run()"><span class="val" id="lseg_v">80</span></div></div>
+    <div class="fld" id="fld_star_n"><label>N° puntas (estrella)</label><div class="row"><input type="range" id="star_n" min="4" max="8" step="1" value="5" oninput="sy('star_n',this.value,0);run()"><span class="val" id="star_n_v">5</span></div></div>
+    <div class="fld" id="fld_star_f"><label>Fracción punta ε</label><div class="row"><input type="range" id="star_f" min="0.2" max="0.8" step="0.01" value="0.45" oninput="sy('star_f',this.value,2);run()"><span class="val" id="star_f_v">0.45</span></div></div>
+    <div class="fld" id="fld_fin_n"><label>N° aletas (finocyl)</label><div class="row"><input type="range" id="fin_n" min="3" max="8" step="1" value="4" oninput="sy('fin_n',this.value,0);run()"><span class="val" id="fin_n_v">4</span></div></div>
+    <div class="fld" id="fld_fin_w"><label>Ancho aleta (mm)</label><div class="row"><input type="range" id="fin_w" min="1" max="20" step="0.5" value="4" oninput="sy('fin_w',this.value,1);run()"><span class="val" id="fin_w_v">4.0</span></div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-title">Tobera y casing</div>
+  <div class="g3">
+    <div class="fld"><label>Dt garganta (mm)</label><div class="row"><input type="range" id="dt" min="1" max="60" step="0.1" value="10.92" oninput="sy('dt',this.value,2);run()"><span class="val" id="dt_v">10.92</span></div></div>
+    <div class="fld"><label>De salida (mm)</label><div class="row"><input type="range" id="de" min="2" max="120" step="0.5" value="19.0" oninput="sy('de',this.value,1);run()"><span class="val" id="de_v">19.0</span></div></div>
+    <div class="fld"><label>Semiáng. divergente (°)</label><div class="row"><input type="range" id="div_ang" min="5" max="30" step="1" value="15" oninput="sy('div_ang',this.value,0);run()"><span class="val" id="div_ang_v">15</span></div></div>
+    <div class="fld"><label>P rating casing (MPa)</label><div class="row"><input type="range" id="prat" min="0.3" max="15" step="0.05" value="1.103" oninput="sy('prat',this.value,3);run()"><span class="val" id="prat_v">1.103</span></div></div>
+    <div class="fld"><label>Límite uso seguro (%)</label><div class="row"><input type="range" id="pct_lim" min="30" max="90" step="5" value="65" oninput="sy('pct_lim',this.value,0);run()"><span class="val" id="pct_lim_v">65</span></div></div>
+  </div>
+</div>
+</div>
+
+<div id="tab_results" class="panel">
+<div class="sec">
+  <div class="sec-title">Indicadores</div>
+  <div class="g5" id="metrics" style="margin-bottom:.75rem"></div>
+  <div class="g5" id="metrics2" style="margin-bottom:.75rem"></div>
+  <div id="warn_zone"></div>
+</div>
+<div class="sec">
+  <div class="sec-title">Curvas F(t) y P(t)</div>
+  <div class="leg">
+    <span><i style="width:16px;height:3px;background:#378ADD"></i>Empuje F (N)</span>
+    <span><i style="width:16px;height:2px;border-top:2px dashed #D85A30"></i>Presión P×50 (MPa)</span>
+  </div>
+  <div class="cw" style="height:220px"><canvas id="ch1"></canvas></div>
+</div>
+<div class="sec">
+  <div class="sec-title">Isp(t)</div>
+  <div class="cw" style="height:140px"><canvas id="ch2"></canvas></div>
+</div>
+<div style="margin-top:.5rem">
+  <button class="btn" onclick="exportCSV()">Exportar CSV</button>
+  <button class="btn" onclick="exportRASP()">Exportar .eng (RASP/OpenRocket)</button>
+</div>
+</div>
+
+<div id="tab_tabla" class="panel">
+<div class="sec">
+  <div class="sec-title">Tabla de resultados por paso de tiempo</div>
+  <div style="overflow-x:auto"><table class="tbl">
+    <thead><tr><th>t (s)</th><th>F (N)</th><th>P (MPa)</th><th>Isp (s)</th><th>r_b (mm/s)</th><th>Ab (mm²)</th><th>Kn</th><th>It_acum (N·s)</th></tr></thead>
+    <tbody id="tbl_body"></tbody>
+  </table></div>
+  <div style="margin-top:.5rem"><button class="btn" onclick="exportCSV()">Exportar CSV completo</button></div>
+</div>
+</div>
+
+<footer>
+  SpaceLabs · ITCR · Costa Rica · <a href="https://github.com/JustinAlfaro/solid_rocket_motor_simulator">GitHub</a><br>
+  Basado en la teoría de <a href="https://www.nakka-rocketry.net">Richard Nakka</a> · MIT License
+</footer>
+
+<script>
+const G0=9.80665;
+const PROPS={
+  knsu:{rho:1780,a:3.8,n:0.40,cstar:660,cf:1.35,tc:1720},
+  kndx:{rho:1740,a:7.1,n:0.32,cstar:670,cf:1.36,tc:1710},
+  knmx:{rho:1840,a:3.4,n:0.38,cstar:650,cf:1.33,tc:1650},
+  kner:{rho:1720,a:5.5,n:0.33,cstar:655,cf:1.34,tc:1680},
+  apcp_standard:{rho:1700,a:5.0,n:0.35,cstar:1580,cf:1.62,tc:3200},
+  apcp_fast:{rho:1730,a:6.2,n:0.33,cstar:1600,cf:1.65,tc:3300},
+  custom:null
+};
+let lastSim=null;
+function g(id){return document.getElementById(id)}
+function v(id){return parseFloat(g(id).value)}
+function sy(id,val,dec){g(id+'_v').textContent=parseFloat(val).toFixed(dec);}
+function showTab(t){
+  document.querySelectorAll('.tab').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(el=>el.classList.remove('active'));
+  const tabs=['config','results','tabla'];
+  document.querySelectorAll('.tab')[tabs.indexOf(t)].classList.add('active');
+  g('tab_'+t).classList.add('active');
+  if(t==='results'||t==='tabla') run();
+}
+function onPropChange(){
+  const t=g('prop_type').value; if(t==='custom')return;
+  const p=PROPS[t];
+  [['rho',0],['aa',1],['nn',2],['cstar',0],['cf',2],['tc',0]].forEach(([id,dec])=>{
+    const key=id==='aa'?'a':id==='nn'?'n':id==='cstar'?'cstar':id;
+    g(id).value=p[key]||p[id]; sy(id,g(id).value,dec);
+  });
+  run();
+}
+function onGeoChange(){
+  const geo=g('geo_type').value;
+  ['fld_star_n','fld_star_f'].forEach(id=>g(id).style.display=geo==='star'?'block':'none');
+  ['fld_fin_n','fld_fin_w'].forEach(id=>g(id).style.display=geo==='finocyl'?'block':'none');
+  drawGeo(geo);
+}
+function drawGeo(geo){
+  const svg=g('geo_preview');
+  const rg=v('od_g')/2,rc=v('core')/2,scale=50/rg,R=rg*scale,Rc=rc*scale;
+  let h='';
+  if(geo==='bates'||geo==='tubular'){
+    h+=`<circle r="${R}" fill="#F0D080" stroke="#A08030" stroke-width="1.5"/>`;
+    h+=`<circle r="${Rc}" fill="#1A3A5C"/>`;
+  } else if(geo==='endburner'){
+    h+=`<circle r="${R}" fill="#F0D080" stroke="#A08030" stroke-width="1.5"/>`;
+    h+=`<circle r="3" fill="#1A3A5C"/>`;
+  } else if(geo==='star'){
+    const n=parseInt(v('star_n')||5),f=v('star_f')||0.45,Ri=R*f;
+    let pts='';
+    for(let i=0;i<n*2;i++){const a=Math.PI*i/n-Math.PI/2,r=i%2===0?R:Ri;pts+=`${(r*Math.cos(a)).toFixed(1)},${(r*Math.sin(a)).toFixed(1)} `;}
+    h+=`<polygon points="${pts}" fill="#F0D080" stroke="#A08030" stroke-width="1.5"/>`;
+  } else if(geo==='finocyl'){
+    h+=`<circle r="${R}" fill="#F0D080" stroke="#A08030" stroke-width="1.5"/>`;
+    h+=`<circle r="${Rc}" fill="#1A3A5C" opacity="0.4"/>`;
+    const nf=parseInt(v('fin_n')||4),fw=v('fin_w')||4*scale;
+    for(let i=0;i<nf;i++){const a=Math.PI*2*i/nf;h+=`<line x1="${(Rc*Math.cos(a)).toFixed(1)}" y1="${(Rc*Math.sin(a)).toFixed(1)}" x2="${(R*Math.cos(a)).toFixed(1)}" y2="${(R*Math.sin(a)).toFixed(1)}" stroke="#1A3A5C" stroke-width="${Math.max(fw,2)}" stroke-linecap="round"/>`;}
+  } else if(geo==='moon'){
+    h+=`<circle r="${R}" fill="#F0D080" stroke="#A08030" stroke-width="1.5"/>`;
+    h+=`<ellipse cx="${(Rc*0.5).toFixed(1)}" cy="0" rx="${(Rc*1.1).toFixed(1)}" ry="${Rc.toFixed(1)}" fill="#1A3A5C" opacity="0.5"/>`;
+  }
+  svg.innerHTML=h;
+}
+function calcAb(geo,rg,rc,nseg,lseg,star_n,star_f,fin_n,fin_w){
+  const PI=Math.PI;
+  if(geo==='bates') return PI*(rg*rg-rc*rc)*2*nseg+PI*rc*2*lseg*nseg;
+  if(geo==='tubular') return PI*rc*2*lseg*nseg;
+  if(geo==='endburner') return PI*rg*rg*nseg;
+  if(geo==='star'){const Ri=rg*star_f;return(2*rg*Math.sin(PI/star_n)*star_n+2*Ri*Math.sin(PI/star_n)*star_n)*0.5*lseg*nseg;}
+  if(geo==='finocyl') return PI*rc*2*lseg*nseg+fin_n*2*(rg-rc)*lseg*nseg;
+  if(geo==='moon') return PI*rc*lseg*nseg*1.4;
+  return PI*(rg*rg-rc*rc)*2*nseg+PI*rc*2*lseg*nseg;
+}
+function simulate(){
+  const rho=v('rho'),a_ms=v('aa')/1000,n=v('nn'),cs=v('cstar'),cf=v('cf');
+  const od_g=v('od_g'),core_d=v('core'),nseg=v('nseg'),lseg=v('lseg');
+  const dt_d=v('dt'),de_d=v('de'),prat=v('prat'),pct_lim=v('pct_lim')/100;
+  const geo=g('geo_type').value;
+  const star_n=parseInt(v('star_n')||5),star_f=v('star_f')||0.45;
+  const fin_n=parseInt(v('fin_n')||4),fin_w=v('fin_w')||4;
+  const At=Math.PI*(dt_d/2)**2,Ae=Math.PI*(de_d/2)**2;
+  const DT=0.010;
+  let t=0,rg=od_g/2,rc=core_d/2;
+  const ts=[],Fs=[],Ps=[],Isps=[],rbs=[],Abs=[],Kns=[];
+  let It=0;
+  for(let i=0;i<15000;i++){
+    const Ab=calcAb(geo,rg,rc,nseg,lseg,star_n,star_f,fin_n,fin_w);
+    if(Ab<=0||rc>=rg) break;
+    const Kn=Ab/At,Pc=(rho*a_ms*cs*Kn*1e-6)**(1/(1-n));
+    const rb=a_ms*(Pc**n)*1000,F=cf*Pc*1e6*At*1e-6;
+    const mdot=rho*rb*1e-3*Ab*1e-6,Isp=mdot>0?F/(mdot*G0):0;
+    ts.push(t);Fs.push(F);Ps.push(Pc);Isps.push(Math.min(Isp,500));
+    rbs.push(rb);Abs.push(Ab);Kns.push(Kn);It+=F*DT;
+    if(geo==='bates'||geo==='tubular'||geo==='finocyl'||geo==='moon') rc+=rb*DT;
+    else if(geo==='endburner') break;
+    else if(geo==='star') rc+=rb*DT*0.8;
+    t+=DT;
+  }
+  const Pc_nom=Ps[0]||0,F_nom=Fs[0]||0,Isp_nom=Isps[0]||0;
+  const tb=ts[ts.length-1]||0;
+  const F_avg=Fs.length?Fs.reduce((a,b)=>a+b,0)/Fs.length:0;
+  const Pc_avg=Ps.length?Ps.reduce((a,b)=>a+b,0)/Ps.length:0;
+  const Isp_avg=Isps.length?Isps.reduce((a,b)=>a+b,0)/Isps.length:0;
+  let clase='?';
+  if(It<2.5)clase='A';else if(It<5)clase='B';else if(It<10)clase='C';
+  else if(It<20)clase='D';else if(It<40)clase='E';else if(It<80)clase='F';
+  else if(It<160)clase='G';else if(It<320)clase='H';else if(It<640)clase='I';
+  else if(It<1280)clase='J';else if(It<2560)clase='K';else clase='L+';
+  return{ts,Fs,Ps,Isps,rbs,Abs,Kns,It,F_nom,F_avg,Pc_nom,Pc_avg,Isp_nom,Isp_avg,
+    tb,clase,prat,pct_lim,At,Ae,DT,od_g,core_d,nseg,lseg,dt_d};
+}
+let ch1=null,ch2=null;
+function run(){
+  const r=simulate(); lastSim=r;
+  const pct=(r.Pc_nom/r.prat*100).toFixed(1);
+  const safe=r.Pc_nom<=r.prat*r.pct_lim,lim=r.Pc_nom<=r.prat*0.85;
+  const cls=safe?'ok':lim?'warn':'err',lbl=safe?'Seguro':lim?'Limite':'PELIGRO';
+  g('metrics').innerHTML=`
+    <div class="met"><div class="lbl">Empuje nominal</div><div class="num">${r.F_nom.toFixed(1)}<span class="unit">N</span></div></div>
+    <div class="met"><div class="lbl">Empuje promedio</div><div class="num">${r.F_avg.toFixed(1)}<span class="unit">N</span></div></div>
+    <div class="met"><div class="lbl">Impulso total</div><div class="num">${r.It.toFixed(0)}<span class="unit">N·s</span></div></div>
+    <div class="met"><div class="lbl">Tiempo t_b</div><div class="num">${r.tb.toFixed(2)}<span class="unit">s</span></div></div>
+    <div class="met"><div class="lbl">Clase Tripoli/NAR</div><div class="num">${r.clase}</div></div>`;
+  g('metrics2').innerHTML=`
+    <div class="met"><div class="lbl">Pc nominal</div><div class="num">${r.Pc_nom.toFixed(3)}<span class="unit">MPa</span></div></div>
+    <div class="met"><div class="lbl">Pc promedio</div><div class="num">${r.Pc_avg.toFixed(3)}<span class="unit">MPa</span></div></div>
+    <div class="met"><div class="lbl">Isp nominal</div><div class="num">${r.Isp_nom.toFixed(0)}<span class="unit">s</span></div></div>
+    <div class="met"><div class="lbl">Isp promedio</div><div class="num">${r.Isp_avg.toFixed(0)}<span class="unit">s</span></div></div>
+    <div class="met"><div class="lbl">Ae/At</div><div class="num">${(r.Ae/r.At).toFixed(2)}</div></div>`;
+  g('warn_zone').innerHTML=`<span class="badge ${cls}">${lbl} — Pc es ${pct}% del rating</span>`+
+    (r.Pc_nom>r.prat*0.85?`<div class="ebox">Pc supera el 85% del rating. Riesgo de fallo del casing.</div>`:'')+ 
+    (r.Pc_nom>r.prat*r.pct_lim&&r.Pc_nom<=r.prat*0.85?`<div class="wbox">Pc supera el límite configurado. Considere aumentar Dt o reducir el grano.</div>`:'');
+  const step=Math.max(1,Math.floor(r.ts.length/150));
+  const tD=r.ts.filter((_,i)=>i%step===0);
+  const FD=r.Fs.filter((_,i)=>i%step===0).map(x=>+x.toFixed(2));
+  const PD=r.Ps.filter((_,i)=>i%step===0).map(x=>+(x*50).toFixed(3));
+  const ID=r.Isps.filter((_,i)=>i%step===0).map(x=>+x.toFixed(1));
+  const tL=tD.map(x=>x.toFixed(2));
+  if(ch1){ch1.destroy();}
+  ch1=new Chart(g('ch1'),{type:'line',data:{labels:tL,datasets:[
+    {label:'F(t) N',data:FD,borderColor:'#378ADD',borderWidth:2,pointRadius:0,tension:0.3,yAxisID:'y'},
+    {label:'P×50',data:PD,borderColor:'#D85A30',borderWidth:1.5,borderDash:[6,3],pointRadius:0,tension:0.3,yAxisID:'y'}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{x:{title:{display:true,text:'Tiempo (s)',font:{size:11}},ticks:{maxTicksLimit:10,font:{size:10}}},
+      y:{title:{display:true,text:'N / MPa×50',font:{size:11}},ticks:{font:{size:10}},beginAtZero:true}}}});
+  if(ch2){ch2.destroy();}
+  ch2=new Chart(g('ch2'),{type:'line',data:{labels:tL,datasets:[
+    {label:'Isp(t)',data:ID,borderColor:'#1D9E75',borderWidth:2,pointRadius:0,tension:0.3,fill:true,backgroundColor:'rgba(29,158,117,0.08)'}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{x:{ticks:{maxTicksLimit:10,font:{size:10}}},
+      y:{title:{display:true,text:'Isp (s)',font:{size:11}},ticks:{font:{size:10}},beginAtZero:false}}}});
+  buildTable(r);
+}
+function buildTable(r){
+  const step=Math.max(1,Math.floor(r.ts.length/80));
+  let html='',acum=0;
+  for(let i=0;i<r.ts.length;i+=step){
+    acum+=r.Fs[i]*r.DT;
+    html+=`<tr><td>${r.ts[i].toFixed(3)}</td><td>${r.Fs[i].toFixed(2)}</td><td>${r.Ps[i].toFixed(4)}</td><td>${r.Isps[i].toFixed(1)}</td><td>${r.rbs[i].toFixed(3)}</td><td>${r.Abs[i].toFixed(0)}</td><td>${r.Kns[i].toFixed(1)}</td><td>${acum.toFixed(2)}</td></tr>`;
+  }
+  g('tbl_body').innerHTML=html;
+}
+function exportCSV(){
+  if(!lastSim)return;
+  const r=lastSim;
+  let csv='t_s,F_N,P_MPa,Isp_s,rb_mms,Ab_mm2,Kn,It_acum_Ns\n';
+  let acum=0;
+  for(let i=0;i<r.ts.length;i++){acum+=r.Fs[i]*r.DT;csv+=`${r.ts[i].toFixed(4)},${r.Fs[i].toFixed(3)},${r.Ps[i].toFixed(5)},${r.Isps[i].toFixed(2)},${r.rbs[i].toFixed(4)},${r.Abs[i].toFixed(1)},${r.Kns[i].toFixed(2)},${acum.toFixed(3)}\n`;}
+  dl(csv,'motor_simulado.csv','text/csv');
+}
+function exportRASP(){
+  if(!lastSim)return;
+  const r=lastSim;
+  const rho=v('rho');
+  const mp=(Math.PI*((r.od_g/2)**2-(r.core_d/2)**2)*r.nseg*r.lseg*1e-9*rho*0.695).toFixed(4);
+  const mt=(Math.PI*((r.od_g/2)**2-(r.core_d/2)**2)*r.nseg*r.lseg*1e-9*rho).toFixed(4);
+  let eng=`; Simulado por SpaceLabs ITCR\n; Motor clase ${r.clase} — It=${r.It.toFixed(0)} N·s\nMotor-${r.clase} ${r.od_g.toFixed(0)} ${(r.nseg*r.lseg).toFixed(0)} 0 ${mp} ${mt} SpaceLabs\n`;
+  const step=Math.max(1,Math.floor(r.ts.length/60));
+  for(let i=0;i<r.ts.length;i+=step) eng+=`${r.ts[i].toFixed(3)} ${r.Fs[i].toFixed(3)}\n`;
+  eng+=`${(r.ts[r.ts.length-1]+r.DT).toFixed(3)} 0.000\n;`;
+  dl(eng,'motor_simulado.eng','text/plain');
+}
+function dl(content,name,mime){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([content],{type:mime}));
+  a.download=name; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+onGeoChange(); run();
+</script>
+</body>
+</html>
